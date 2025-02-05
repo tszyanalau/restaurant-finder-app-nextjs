@@ -6,7 +6,7 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
     'X-Goog-Api-Key': process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
   },
-  timeout: 5000,
+  timeout: parseInt(process.env.API_TIMEOUT as string),
 })
 
 export default apiClient
