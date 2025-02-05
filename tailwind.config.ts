@@ -8,5 +8,5 @@ export default {
   daisyui: {
     themes: ['light'], // Ensure default themes are enabled
   },
-  safelist: [{ pattern: /^(btn|size|text|link|range|badge|gap|alert)-/ }],
+  safelist: [{ pattern: /^(btn|size|text|link|range|badge|gap|alert|h)-/ }],
 } satisfies Config
