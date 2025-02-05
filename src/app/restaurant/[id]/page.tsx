@@ -3,9 +3,9 @@ import Page from '@/components/Page'
 import Flex from '@/components/Flex'
 import Heading from '@/components/Heading'
 import Rating from '@/components/Rating'
-import Map from '@/components/Map'
 import ExternalLink from '@/components/ExternalLink'
 import PriceRange from '@/components/PriceRange'
+import Map from '@/containers/Map'
 
 export default async function RestaurantPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

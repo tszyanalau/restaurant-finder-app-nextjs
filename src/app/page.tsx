@@ -13,11 +13,11 @@ import Alert from '@/components/Alert'
 import Button from '@/components/Button'
 import Heading from '@/components/Heading'
 import Range from '@/components/Range'
-import AdvancedMarkerWithRef from '@/components/AdvancedMarkerWithRef'
-import Marker from '@/components/Marker'
 import Flex from '@/components/Flex'
 import Flag from '@/components/Flag'
 import Link from '@/components/Link'
+import AdvancedMarkerWithRef from '@/containers/AdvancedMarkerWithRef'
+import Marker from '@/containers/Marker'
 
 const defaultCenter = {
   lat: parseFloat(process.env.NEXT_PUBLIC_API_LATITUDE as string),
