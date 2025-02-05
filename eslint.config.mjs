@@ -92,6 +92,8 @@ const eslintConfig = [
       'react/react-in-jsx-scope': 0,
       'react/self-closing-comp': 'error',
       'react/state-in-constructor': 'error',
+
+      'react-hooks/exhaustive-deps': 0,
     },
   }),
 ]

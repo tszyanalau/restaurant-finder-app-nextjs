@@ -1,17 +1,20 @@
-import { NextResponse } from 'next/server'
-import apiClient from '@/lib/api/apiClient'
-import { NearbySearchApiResponse, Place } from '@/types/placesApiResponse'
+import { NextRequest, NextResponse } from 'next/server'
+import apiClient from '@/lib/api/client'
+import { handleError } from '@/lib/api/handler'
+import { Place } from '@/types/place'
 import { ApiResponse } from '@/types/apiResponse'
 
-const latitude = parseFloat(process.env.API_LATITUDE as string)
-const longitude = parseFloat(process.env.API_LONGITUDE as string)
-const radius = parseFloat(process.env.API_RADIUS as string)
+const latitude = parseFloat(process.env.NEXT_PUBLIC_API_LATITUDE as string)
+const longitude = parseFloat(process.env.NEXT_PUBLIC_API_LONGITUDE as string)
 const limit = parseInt(process.env.API_LIMIT as string)
+const defaultRadius = process.env.NEXT_PUBLIC_DEFAULT_RADIUS as string
 const placeTypes = process.env.API_PLACE_TYPES?.split(',')
-const searchFields =
-  'places.id,places.location,places.displayName,places.takeout,places.delivery,places.dineIn,places.primaryTypeDisplayName'
+const fields = 'places.id,places.location,places.displayName,places.takeout,places.delivery,places.dineIn'
 
-export const GET = async (): Promise<NextResponse<ApiResponse<Place[]>>> => {
+export const GET = async (request: NextRequest): Promise<NextResponse<ApiResponse<Place[]>>> => {
+  const { searchParams } = request.nextUrl
+  const radius = searchParams.get('radius') || defaultRadius
+
   const data = {
     includedPrimaryTypes: placeTypes,
     maxResultCount: limit,
@@ -27,15 +30,15 @@ export const GET = async (): Promise<NextResponse<ApiResponse<Place[]>>> => {
   }
   const config = {
     headers: {
-      'X-Goog-FieldMask': searchFields,
+      'X-Goog-FieldMask': fields,
     },
   }
   return apiClient
-    .post<NearbySearchApiResponse>('/places:searchNearby', data, config)
+    .post<{ places: Place[] }>('/places:searchNearby', data, config)
     .then((res) => {
       return NextResponse.json({ success: true, data: res.data.places })
     })
     .catch((err) => {
-      return NextResponse.json({ success: false, data: err.message }, { status: err.status })
+      return handleError(err)
     })
 }

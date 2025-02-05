@@ -1,14 +1,24 @@
 'use client'
 
 import classNames from 'classnames'
+import { Variant, Size } from '@/types/component'
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'primary' | 'secondary'
-  size?: 'xs' | 'sm' | 'md' | 'lg'
+  variant?: Variant
+  size?: Size
   outline?: boolean
+  children: React.ReactNode
 }
 
-const Button = ({ type = 'button', variant = 'primary', size = 'sm', outline, className, children, ...props }: ButtonProps) => {
+export default function Button({
+  type = 'button',
+  variant = 'primary',
+  size = 'sm',
+  outline,
+  className,
+  children,
+  ...props
+}: ButtonProps) {
   return (
     <button
       // eslint-disable-next-line react/button-has-type
@@ -20,5 +30,3 @@ const Button = ({ type = 'button', variant = 'primary', size = 'sm', outline, cl
     </button>
   )
 }
-
-export default Button

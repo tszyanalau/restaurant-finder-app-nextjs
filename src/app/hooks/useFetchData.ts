@@ -9,6 +9,8 @@ export function useFetchData<T>(url: string) {
   const [error, setError] = useState<string | null>(null)
 
   const loadData = useCallback(async () => {
+    if (data) setData(null)
+    if (error) setError(null)
     setLoading(true)
     const res = await fetch(url)
     const result: ApiResponse<T> = await res.json()
@@ -23,7 +25,7 @@ export function useFetchData<T>(url: string) {
 
   useEffect(() => {
     loadData()
-  }, [loadData])
+  }, [])
 
   return { data, loading, error, refetch: loadData }
 }

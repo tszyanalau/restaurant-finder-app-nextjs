@@ -1,4 +1,13 @@
-const Page = ({ children }: { children: React.ReactNode }) => (
-  <div className="container p-2 m-auto flex flex-col gap-1 prose">{children}</div>
-)
-export default Page
+import Flex from '@/components/Flex'
+
+type PageProps = {
+  children: React.ReactNode
+}
+
+export default function Page({ children }: PageProps) {
+  return (
+    <Flex direction="vertical" gap={2} className="p-4 m-auto prose">
+      {children}
+    </Flex>
+  )
+}
