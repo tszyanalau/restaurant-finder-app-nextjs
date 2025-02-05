@@ -9,8 +9,9 @@ export default function ExternalLink({ href, className, children, ...props }: Re
       target="_blank"
       rel="noreferrer"
       className={classNames(className, 'text-decoration-none', 'inline-flex', 'items-center')}
+      {...props}
     >
-      {children} <Icon className="ml-1" icon={ArrowTopRightOnSquareIcon} size={4} {...props} />
+      {children} <Icon className="ml-1" icon={ArrowTopRightOnSquareIcon} size={4} />
     </a>
   )
 }

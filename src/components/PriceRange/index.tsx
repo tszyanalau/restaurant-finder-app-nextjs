@@ -9,7 +9,7 @@ export default function PriceRange({ startPrice, endPrice, className, ...props }
   if (!endPrice) {
     return (
       <span className={className} {...props}>
-        More then {startPrice.units} {startPrice.currencyCode}
+        More than {startPrice.units} {startPrice.currencyCode}
       </span>
     )
   }
