@@ -119,34 +119,39 @@ export default function HomePage() {
             <Marker />
           </AdvancedMarker>
           {restaurants &&
-            restaurants.map((restaurant) => (
-              <AdvancedMarkerWithRef
-                key={restaurant.id}
-                position={{
-                  lat: restaurant.location.latitude,
-                  lng: restaurant.location.longitude,
-                }}
-                onMarkerClick={(marker: google.maps.marker.AdvancedMarkerElement) => {
-                  if (marker) {
-                    setSelectedMarker(marker)
-                  }
-                  if (restaurant.id === selectedRestaurant?.id) {
-                    setShowInfoWindow((show) => !show)
-                  } else {
-                    setSelectedRestaurant(restaurant)
-                    setShowInfoWindow(true)
-                  }
-                }}
-              >
-                <Marker variant="accent" />
-              </AdvancedMarkerWithRef>
-            ))}
+            restaurants
+              .filter((restaurant) => restaurant.location)
+              .map((restaurant) => {
+                if (!restaurant.location) return null
+                return (
+                  <AdvancedMarkerWithRef
+                    key={restaurant.id}
+                    position={{
+                      lat: restaurant.location.latitude,
+                      lng: restaurant.location.longitude,
+                    }}
+                    onMarkerClick={(marker: google.maps.marker.AdvancedMarkerElement) => {
+                      if (marker) {
+                        setSelectedMarker(marker)
+                      }
+                      if (restaurant.id === selectedRestaurant?.id) {
+                        setShowInfoWindow((show) => !show)
+                      } else {
+                        setSelectedRestaurant(restaurant)
+                        setShowInfoWindow(true)
+                      }
+                    }}
+                  >
+                    <Marker variant="accent" />
+                  </AdvancedMarkerWithRef>
+                )
+              })}
         </Map>
         {showInfoWindow && selectedMarker && selectedRestaurant && (
-          <InfoWindow anchor={selectedMarker} pixelOffset={[0, -2]} headerContent={<b>{selectedRestaurant.displayName.text}</b>}>
-            <Flag label="Dine In" flag={selectedRestaurant.dineIn} />
-            <Flag label="Takeout" flag={selectedRestaurant.takeout} />
-            <Flag label="Delivery" flag={selectedRestaurant.delivery} />
+          <InfoWindow anchor={selectedMarker} pixelOffset={[0, -2]} headerContent={<b>{selectedRestaurant.displayName?.text}</b>}>
+            {selectedRestaurant.dineIn && <Flag label="Dine In" flag={selectedRestaurant.dineIn} />}
+            {selectedRestaurant.takeout && <Flag label="Takeout" flag={selectedRestaurant.takeout} />}
+            {selectedRestaurant.delivery && <Flag label="Delivery" flag={selectedRestaurant.delivery} />}
             <div className="mt-4">
               <Link href={`/restaurant/${selectedRestaurant.id}`} target="_blank" rel="noreferrer" className="mt-4">
                 View Details
