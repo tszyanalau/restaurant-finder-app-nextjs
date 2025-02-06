@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Restaurant Finder App
+
+The **Restaurant Finder App** helps users discover restaurants near a specific coordinate (currently preset as **The Sumitomo Fudosan Roppongi Grand Tower** in the code), view detailed information about each restaurant, and display the selected restaurant on a map. The app integrates with the [Google Places API (New)](https://developers.google.com/maps/documentation/places/web-service/op-overview) to fetch restaurant data and uses the [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript) for map rendering and location visualization.
+
+This is a hobby project for exploring [**Next.js**](https://nextjs.org/) and related technologies, not intended for commercial use.
+
+## Key Features
+
+- **Find Restaurants**: Search for restaurants within a user-defined radius of a specific coordinate.
+- **Interactive Map**: View the locations of restaurants and the target coordinate on an embedded Google Map.
+- **Restaurant Details**: Access information such as address and phone number on a dedicated page.
+
+## Prerequisites
+
+Before running the application, ensure you have the following:
+
+- **Node.js** (>=v20.15) installed on your machine.
+- **Google API Key** with the following services enabled at [Google Cloud Console](https://console.cloud.google.com/):
+  - **Maps JavaScript API**
+  - **Places API (New)**
 
 ## Getting Started
 
-First, run the development server:
+### Clone the repository
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```sh
+git clone https://github.com/tszyanalau/restaurant-finder-app-nextjs.git
+cd restaurant-finder-app-nextjs
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Add environment variables
 
-## Learn More
+Create a `.env.local` file and add the following:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+APP_API_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_GOOGLE_API_KEY=your_google_api_key
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development Tools
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. **Vitest**
 
-## Deploy on Vercel
+- A modern testing framework for unit testing React components and utilities.
+- Provides fast and reliable test execution with minimal configuration.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 2. **ESLint and Prettier**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **ESLint**: Enforces consistent code quality by detecting and fixing potential issues.
+- **Prettier**: Automatically formats code to maintain uniform styling across the project.
+
+### 3. **Commitlint and lint-staged**
+
+- **Commitlint**: Ensures commit messages follow a standard format for better version control and collaboration.
+- **lint-staged**: Runs pre-commit checks on staged files, ensuring only properly formatted code is committed.
+
+## Available Scripts
+
+The following scripts are available for development, testing, and building the project:
+
+- **`npm run build`**: Builds the app for production using Vite.
+- **`npm run lint`**: Checks code quality using ESLint.
+- **`npm run prettier:fix`**: Formats code and assets using Prettier.
+- **`npm run test`**: Runs unit tests using Vitest.
+- **`npm run test:watch`**: Watches for changes and re-runs tests.
+- **`npm run test:ui`**: Launches the Vitest UI for interactive test exploration.
+
+## Technologies Used
+
+### 1. **Next.js**
+
+- A powerful React framework that enables server-side rendering, static site generation, and API routes.
+
+### 2. **Google Places API (New)**
+
+- Provides restaurant search functionality, including location-based queries and detailed restaurant information.
+
+### 3. **Google Maps API**
+
+- Enables interactive map rendering and geolocation services for visualizing restaurant locations.
+
+### 4. **Tailwind CSS with DaisyUI**
+
+- **Tailwind CSS**: A utility-first CSS framework that provides rapid styling capabilities.
+- **DaisyUI**: A Tailwind plugin that adds pre-designed UI components for a consistent and polished design.
+
+### 5. **Vitest**
+
+- A fast and lightweight testing framework designed for modern JavaScript and TypeScript projects.

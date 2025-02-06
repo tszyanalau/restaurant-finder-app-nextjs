@@ -1,101 +1,167 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useEffect, useState } from 'react'
+import { APIProvider, Map, AdvancedMarker, InfoWindow, MapCameraChangedEvent } from '@vis.gl/react-google-maps'
+
+import { Place } from '@/types/place'
+import { useFetchData } from '@/app/hooks/useFetchData'
+import { getZoomValue } from '@/utils/map'
+
+import Page from '@/components/Page'
+import Badge from '@/components/Badge'
+import Alert from '@/components/Alert'
+import Button from '@/components/Button'
+import Heading from '@/components/Heading'
+import Range from '@/components/Range'
+import Flex from '@/components/Flex'
+import Flag from '@/components/Flag'
+import Link from '@/components/Link'
+import AdvancedMarkerWithRef from '@/containers/AdvancedMarkerWithRef'
+import Marker from '@/containers/Marker'
+
+const defaultCenter = {
+  lat: parseFloat(process.env.NEXT_PUBLIC_API_LATITUDE as string),
+  lng: parseFloat(process.env.NEXT_PUBLIC_API_LONGITUDE as string),
+}
+
+const defaultRadius = parseFloat(process.env.NEXT_PUBLIC_DEFAULT_RADIUS as string)
+
+export default function HomePage() {
+  const [selectedMarker, setSelectedMarker] = useState<google.maps.marker.AdvancedMarkerElement | null>(null)
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Place | null>(null)
+  const [showInfoWindow, setShowInfoWindow] = useState(false)
+  const [center, setCenter] = useState(defaultCenter)
+  const [zoom, setZoom] = useState(getZoomValue(defaultRadius))
+  const [radius, setRadius] = useState(defaultRadius)
+  const [restaurants, setRestaurants] = useState<Place[]>([])
+  const url = `/api/restaurants?${new URLSearchParams({ radius: radius.toString() }).toString()}`
+  const { data, loading, error, refetch } = useFetchData<Place[]>(url)
+
+  const resetInfoWindow = () => {
+    if (showInfoWindow) setShowInfoWindow(false)
+    if (selectedMarker) setSelectedMarker(null)
+    if (selectedRestaurant) setSelectedRestaurant(null)
+  }
+
+  const resetMap = () => {
+    setCenter(defaultCenter)
+    setZoom(getZoomValue(radius))
+  }
+
+  useEffect(() => {
+    if (data) {
+      setRestaurants(data)
+      setZoom(getZoomValue(radius))
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (loading || error) {
+      setRestaurants([])
+    }
+  }, [loading])
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <Page>
+      <Heading level={1}>{process.env.NEXT_PUBLIC_APP_NAME}</Heading>
+      <Flex gap={2}>
+        <Badge>Lat</Badge>
+        {defaultCenter.lat}
+        <Badge>Lng</Badge>
+        {defaultCenter.lng}
+      </Flex>
+      <Flex gap={2}>
+        Radius
+        <Range
+          min={100}
+          max={1000}
+          value={radius}
+          step={100}
+          disabled={loading}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setRadius(Number(event.target.value))
+          }}
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div>{radius}m</div>
+        <Button
+          className="min-w-24"
+          onClick={() => {
+            resetInfoWindow()
+            resetMap()
+            refetch()
+          }}
+          disabled={loading}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          {loading ? <span className="loading loading-dots loading-sm" /> : 'Search'}
+        </Button>
+      </Flex>
+      <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string}>
+        <Map
+          className="not-prose h-[24rem] sm:h-[36rem] w-full"
+          mapId="restaurant-map"
+          defaultCenter={center}
+          center={center}
+          defaultZoom={getZoomValue(defaultRadius)}
+          zoom={zoom}
+          zoomControl
+          disableDefaultUI
+          onZoomChanged={(event: MapCameraChangedEvent) => {
+            setZoom(event.detail.zoom)
+          }}
+          onCenterChanged={(event: MapCameraChangedEvent) => {
+            setCenter(event.detail.center)
+          }}
+          onDragend={() => {
+            resetInfoWindow()
+          }}
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+          <AdvancedMarker position={defaultCenter}>
+            <Marker />
+          </AdvancedMarker>
+          {restaurants &&
+            restaurants
+              .filter((restaurant) => restaurant.location)
+              .map((restaurant) => {
+                if (!restaurant.location) return null
+                return (
+                  <AdvancedMarkerWithRef
+                    key={restaurant.id}
+                    position={{
+                      lat: restaurant.location.latitude,
+                      lng: restaurant.location.longitude,
+                    }}
+                    onMarkerClick={(marker: google.maps.marker.AdvancedMarkerElement) => {
+                      if (marker) {
+                        setSelectedMarker(marker)
+                      }
+                      if (restaurant.id === selectedRestaurant?.id) {
+                        setShowInfoWindow((show) => !show)
+                      } else {
+                        setSelectedRestaurant(restaurant)
+                        setShowInfoWindow(true)
+                      }
+                    }}
+                  >
+                    <Marker variant="accent" />
+                  </AdvancedMarkerWithRef>
+                )
+              })}
+        </Map>
+        {showInfoWindow && selectedMarker && selectedRestaurant && (
+          <InfoWindow anchor={selectedMarker} pixelOffset={[0, -2]} headerContent={<b>{selectedRestaurant.displayName?.text}</b>}>
+            {selectedRestaurant.dineIn && <Flag label="Dine In" flag={selectedRestaurant.dineIn} />}
+            {selectedRestaurant.takeout && <Flag label="Takeout" flag={selectedRestaurant.takeout} />}
+            {selectedRestaurant.delivery && <Flag label="Delivery" flag={selectedRestaurant.delivery} />}
+            <div className="mt-4">
+              <Link href={`/restaurant/${selectedRestaurant.id}`} target="_blank" rel="noreferrer" className="mt-4">
+                View Details
+              </Link>
+            </div>
+          </InfoWindow>
+        )}
+      </APIProvider>
+      {!loading && !error && restaurants.length === 0 && <Alert type="info">No restaurants found.</Alert>}
+      {!loading && error && <Alert type="error">Something went wrong!</Alert>}
+    </Page>
+  )
 }
