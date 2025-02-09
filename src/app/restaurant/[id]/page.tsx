@@ -19,24 +19,31 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
       <Page>
         {data.displayName?.text && <Heading level={1}>{data.displayName.text}</Heading>}
         <Flex direction="vertical">
-          <Flex gap={2}>
-            {data.rating ?? DEFAULT_PLACEHOLDER}
-            <Rating value={data.rating} /> {data.userRatingCount ? `(${data.userRatingCount})` : 'No review'}
-            {data.primaryTypeDisplayName?.text && <div>{data.primaryTypeDisplayName?.text}</div>}
-            {data.currentOpeningHours?.openNow && (
-              <div className={data.currentOpeningHours?.openNow ? 'text-success' : 'text-neutral'}>
-                {data.currentOpeningHours.openNow ? 'Open Now' : 'Closed'}
-              </div>
-            )}
+          <Flex gap={2} className="flex-col sm:flex-row">
+            <Flex>
+              {data.rating ?? DEFAULT_PLACEHOLDER}
+              <Rating value={data.rating} /> {data.userRatingCount ? `(${data.userRatingCount})` : 'No review'}
+            </Flex>
+            <Flex>
+              {data.primaryTypeDisplayName?.text && <div>{data.primaryTypeDisplayName?.text}</div>}
+              {data.currentOpeningHours?.openNow && (
+                <>
+                  &#183;
+                  <div className={data.currentOpeningHours?.openNow ? 'text-success' : 'text-neutral'}>
+                    {data.currentOpeningHours.openNow ? 'Open Now' : 'Closed'}
+                  </div>
+                </>
+              )}
+            </Flex>
           </Flex>
         </Flex>
         {(data.formattedAddress || data.location || data.currentOpeningHours?.weekdayDescriptions) && (
           <Flex direction="vertical">
             <Heading level={3}>Location & Opening Hours</Heading>
             {data.formattedAddress && <div>{data.formattedAddress}</div>}
-            <Flex gap={2}>
+            <Flex gap={2} className="flex-col sm:flex-row">
               {data.location && (
-                <div className="w-1/2">
+                <div className="w-full sm:w-1/2">
                   <Map lat={data.location.latitude} lng={data.location.longitude} url={data.googleMapsUri} />
                 </div>
               )}
