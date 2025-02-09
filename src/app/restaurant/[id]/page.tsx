@@ -8,6 +8,7 @@ import PriceRange from '@/components/PriceRange'
 import Table from '@/components/Table'
 import Map from '@/containers/Map'
 import { DEFAULT_PLACEHOLDER } from '@/lib/constants'
+import OpeningHours from './OpeningHours'
 
 export default async function RestaurantPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -64,12 +65,8 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
                   <Map lat={data.location.latitude} lng={data.location.longitude} url={data.googleMapsUri} />
                 </div>
               )}
-              {data.regularOpeningHours?.weekdayDescriptions && (
-                <Flex direction="vertical">
-                  {data.regularOpeningHours.weekdayDescriptions.map((text: string) => (
-                    <div key={text}>{text}</div>
-                  ))}
-                </Flex>
+              {data.regularOpeningHours?.periods && (
+                <OpeningHours periods={data.regularOpeningHours?.periods} className="sm:w-auto w-full" />
               )}
             </Flex>
           </Flex>
