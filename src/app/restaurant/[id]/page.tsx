@@ -43,18 +43,18 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
             </Flex>
             <Flex>
               {data.primaryTypeDisplayName?.text && <div>{data.primaryTypeDisplayName?.text}</div>}
-              {data.currentOpeningHours?.openNow && (
+              {data.regularOpeningHours?.openNow && (
                 <>
                   &#183;
-                  <div className={data.currentOpeningHours?.openNow ? 'text-success' : 'text-neutral'}>
-                    {data.currentOpeningHours.openNow ? 'Open Now' : 'Closed'}
+                  <div className={data.regularOpeningHours?.openNow ? 'text-success' : 'text-neutral'}>
+                    {data.regularOpeningHours.openNow ? 'Open Now' : 'Closed'}
                   </div>
                 </>
               )}
             </Flex>
           </Flex>
         </Flex>
-        {(data.formattedAddress || data.location || data.currentOpeningHours?.weekdayDescriptions) && (
+        {(data.formattedAddress || data.location || data.regularOpeningHours?.weekdayDescriptions) && (
           <Flex direction="vertical">
             <Heading level={3}>Location & Opening Hours</Heading>
             {data.formattedAddress && <div>{data.formattedAddress}</div>}
@@ -64,9 +64,9 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
                   <Map lat={data.location.latitude} lng={data.location.longitude} url={data.googleMapsUri} />
                 </div>
               )}
-              {data.currentOpeningHours?.weekdayDescriptions && (
+              {data.regularOpeningHours?.weekdayDescriptions && (
                 <Flex direction="vertical">
-                  {data.currentOpeningHours.weekdayDescriptions.map((text: string) => (
+                  {data.regularOpeningHours.weekdayDescriptions.map((text: string) => (
                     <div key={text}>{text}</div>
                   ))}
                 </Flex>

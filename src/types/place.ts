@@ -35,7 +35,7 @@ export type PlaceDetails = {
   primaryTypeDisplayName?: {
     text?: string
   }
-  currentOpeningHours?: {
+  regularOpeningHours?: {
     openNow?: boolean
     weekdayDescriptions?: string[]
   }
