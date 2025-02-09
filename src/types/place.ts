@@ -3,6 +3,17 @@ type Location = {
   longitude: number
 }
 
+type Point = {
+  day: number
+  hour: number
+  minute: number
+}
+
+export type Period = {
+  open: Point
+  close: Point
+}
+
 export type Price = {
   currencyCode: string
   units: string
@@ -35,9 +46,9 @@ export type PlaceDetails = {
   primaryTypeDisplayName?: {
     text?: string
   }
-  currentOpeningHours?: {
+  regularOpeningHours?: {
     openNow?: boolean
-    weekdayDescriptions?: string[]
+    periods?: Period[]
   }
   priceRange?: {
     startPrice: Price

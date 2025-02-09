@@ -1,10 +1,12 @@
-type TableProps = {
+import classNames from 'classnames'
+
+type TableProps = React.HTMLAttributes<HTMLDivElement> & {
   data: { label: string; value: React.ReactNode }[]
 }
 
-const Table = ({ data }: TableProps) => {
+export default function Table({ data, className }: TableProps) {
   return (
-    <div className="overflow-x-auto">
+    <div className={classNames('overflow-x-auto', className)}>
       <table className="table not-prose">
         <tbody>
           {data.map((item) => (
@@ -18,5 +20,3 @@ const Table = ({ data }: TableProps) => {
     </div>
   )
 }
-
-export default Table

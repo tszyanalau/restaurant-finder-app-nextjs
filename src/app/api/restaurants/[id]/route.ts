@@ -5,7 +5,7 @@ import { PlaceDetails } from '@/types/place'
 import { ApiResponse } from '@/types/apiResponse'
 
 const fields =
-  'id,nationalPhoneNumber,formattedAddress,location,rating,googleMapsUri,websiteUri,userRatingCount,displayName,primaryTypeDisplayName,currentOpeningHours,priceRange'
+  'id,nationalPhoneNumber,formattedAddress,location,rating,googleMapsUri,websiteUri,userRatingCount,displayName,primaryTypeDisplayName,regularOpeningHours,priceRange'
 
 export const GET = async (
   request: NextRequest,
