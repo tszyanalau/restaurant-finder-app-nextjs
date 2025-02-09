@@ -5,6 +5,7 @@ import Heading from '@/components/Heading'
 import Rating from '@/components/Rating'
 import ExternalLink from '@/components/ExternalLink'
 import PriceRange from '@/components/PriceRange'
+import Table from '@/components/Table'
 import Map from '@/containers/Map'
 
 const DEFAULT_PLACEHOLDER = '-'
@@ -15,6 +16,23 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
   const result = await res.json()
   const { success, data } = result
   if (success) {
+    const restaurantDetails = [
+      { label: 'Phone Number', value: data.nationalPhoneNumber ?? DEFAULT_PLACEHOLDER },
+      {
+        label: 'Website',
+        value: data.websiteUri ? (
+          <ExternalLink className="text-primary" href={data.websiteUri}>
+            {data.websiteUri}
+          </ExternalLink>
+        ) : (
+          DEFAULT_PLACEHOLDER
+        ),
+      },
+      {
+        label: 'Price Range',
+        value: data.priceRange ? <PriceRange {...data.priceRange} /> : DEFAULT_PLACEHOLDER,
+      },
+    ]
     return (
       <Page>
         {data.displayName?.text && <Heading level={1}>{data.displayName.text}</Heading>}
@@ -59,32 +77,7 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
         )}
         <Flex direction="vertical">
           <Heading level={3}>Details</Heading>
-          <div className="overflow-x-auto">
-            <table className="table not-prose">
-              <tbody>
-                <tr>
-                  <th>Phone Number</th>
-                  <td>{data.nationalPhoneNumber ?? DEFAULT_PLACEHOLDER}</td>
-                </tr>
-                <tr>
-                  <th>Website</th>
-                  <td>
-                    {data.websiteUri ? (
-                      <ExternalLink className="text-primary" href={data.websiteUri}>
-                        {data.websiteUri}
-                      </ExternalLink>
-                    ) : (
-                      DEFAULT_PLACEHOLDER
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <th>Price Range</th>
-                  <td>{data.priceRange ? <PriceRange {...data.priceRange} /> : DEFAULT_PLACEHOLDER}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <Table data={restaurantDetails} />
         </Flex>
       </Page>
     )
