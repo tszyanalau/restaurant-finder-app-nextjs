@@ -2,7 +2,7 @@ type TableProps = {
   data: { label: string; value: React.ReactNode }[]
 }
 
-const Table = ({ data }: TableProps) => {
+export default function Table({ data }: TableProps) {
   return (
     <div className="overflow-x-auto">
       <table className="table not-prose">
@@ -18,5 +18,3 @@ const Table = ({ data }: TableProps) => {
     </div>
   )
 }
-
-export default Table
