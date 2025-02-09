@@ -7,8 +7,7 @@ import ExternalLink from '@/components/ExternalLink'
 import PriceRange from '@/components/PriceRange'
 import Table from '@/components/Table'
 import Map from '@/containers/Map'
-
-const DEFAULT_PLACEHOLDER = '-'
+import { DEFAULT_PLACEHOLDER } from '@/lib/constants'
 
 export default async function RestaurantPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
