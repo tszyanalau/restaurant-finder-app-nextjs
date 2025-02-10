@@ -1,11 +1,9 @@
 import classNames from 'classnames'
 
-type IconProps = React.SVGProps<SVGSVGElement> & {
-  icon: React.ElementType
-  size?: number
-  className?: string
+type IconProps = React.HTMLAttributes<HTMLLIElement> & {
+  type: string
 }
 
-export default function Icon({ icon: IconComponent, size = 6, className, ...props }: IconProps) {
-  return <IconComponent className={classNames(`size-${size}`, className)} {...props} />
+export default function Icon({ className, type, ...props }: IconProps) {
+  return <i className={classNames(className, 'bi', `bi-${type}`)} {...props} />
 }
