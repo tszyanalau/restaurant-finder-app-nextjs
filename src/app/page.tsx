@@ -149,9 +149,9 @@ export default function HomePage() {
         </Map>
         {showInfoWindow && selectedMarker && selectedRestaurant && (
           <InfoWindow anchor={selectedMarker} pixelOffset={[0, -2]} headerContent={<b>{selectedRestaurant.displayName?.text}</b>}>
-            {selectedRestaurant.dineIn && <Flag label="Dine In" flag={selectedRestaurant.dineIn} />}
-            {selectedRestaurant.takeout && <Flag label="Takeout" flag={selectedRestaurant.takeout} />}
-            {selectedRestaurant.delivery && <Flag label="Delivery" flag={selectedRestaurant.delivery} />}
+            <Flag label="Dine In" flag={selectedRestaurant.dineIn ?? false} />
+            <Flag label="Takeout" flag={selectedRestaurant.takeout ?? false} />
+            <Flag label="Delivery" flag={selectedRestaurant.delivery ?? false} />
             <div className="mt-4">
               <Link href={`/restaurant/${selectedRestaurant.id}`} target="_blank" rel="noreferrer" className="mt-4">
                 View Details
