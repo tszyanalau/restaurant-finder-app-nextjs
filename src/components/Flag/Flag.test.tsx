@@ -12,19 +12,21 @@ describe('Flag', () => {
   it('applies the success class and icon when flag is true', () => {
     const { container } = render(<Flag label="Test Label" flag />)
     const flagElement = container.firstChild
-    const icon = container.querySelector('svg')
+    const icon = container.querySelector('i')
 
     expect(flagElement).toHaveClass('text-success')
     expect(icon).toBeInTheDocument()
+    expect(icon).toHaveClass('bi', 'bi-check-circle-fill')
   })
 
   it('applies the error class and icon when flag is false', () => {
     const { container } = render(<Flag label="Test Label" flag={false} />)
     const flagElement = container.firstChild
-    const icon = container.querySelector('svg')
+    const icon = container.querySelector('i')
 
     expect(flagElement).toHaveClass('text-error')
     expect(icon).toBeInTheDocument()
+    expect(icon).toHaveClass('bi', 'bi-x-circle-fill')
   })
 
   it('applies additional class names correctly', () => {
