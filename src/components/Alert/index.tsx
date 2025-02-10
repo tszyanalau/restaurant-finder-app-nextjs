@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import { InformationCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import Icon from '@/components/Icon'
 
 type AlertProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -8,11 +7,9 @@ type AlertProps = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export default function Alert({ type, children, className }: AlertProps) {
-  const icon = type === 'info' ? InformationCircleIcon : XCircleIcon
-
   return (
     <div role="alert" className={classNames('alert', className)}>
-      <Icon icon={icon} className={`text-${type}`} />
+      <Icon type={type === 'info' ? 'info-circle' : 'x-circle'} className={`text-${type}`} />
       <span>{children}</span>
     </div>
   )
