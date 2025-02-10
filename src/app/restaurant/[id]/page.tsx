@@ -40,7 +40,8 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
           <Flex gap={2} className="flex-col sm:flex-row">
             <Flex>
               {data.rating ?? DEFAULT_PLACEHOLDER}
-              <Rating value={data.rating} /> {data.userRatingCount ? `(${data.userRatingCount})` : 'No review'}
+              <Rating className="text-primary" value={data.rating} />{' '}
+              {data.userRatingCount ? `(${data.userRatingCount})` : 'No review'}
             </Flex>
             <Flex>
               {data.primaryTypeDisplayName?.text && <div>{data.primaryTypeDisplayName?.text}</div>}
