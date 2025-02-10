@@ -43,9 +43,9 @@ describe('ExternalLink', () => {
 
   it('renders the icon with the correct class', () => {
     const { container } = render(<ExternalLink href="https://example.com">Example</ExternalLink>)
-    const icon = container.querySelector('svg')
+    const icon = container.querySelector('i')
 
     expect(icon).toBeInTheDocument()
-    expect(icon).toHaveClass('ml-1')
+    expect(icon).toHaveClass('ml-1', 'bi', 'bi-box-arrow-up-right')
   })
 })
