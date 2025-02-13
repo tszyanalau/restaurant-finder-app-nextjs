@@ -1,35 +1,35 @@
-name: Changeset Check
+name: Validate Changeset Format
 
 on:
   pull_request:
     branches:
-      - main
+      - '**'
 
 jobs:
-  check-changeset:
-    name: Verify Changeset
+  validate-changeset:
+    name: Validate Changeset Format
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Find and Check Changeset Files
-        id: check_changesets
+      - name: Locate Changeset Files
+        id: locate_changesets
         run: |
           # Find all changeset files, excluding README.md
           changeset_files=$(find .changeset -type f -name "*.md" ! -name "README.md")
 
           if [ -z "$changeset_files" ]; then
-            echo "No changeset files found. Skipping check."
+            echo "No changeset files found. Skipping validation."
             exit 0 # Pass if no changesets exist
           fi
 
-          echo "Checking changeset files..."
+          echo "Validating changeset files..."
           ERROR_FOUND=0
 
           for file in $changeset_files; do
-            echo "Checking file: $file"
+            echo "Validating file: $file"
 
             # Extract the first non-empty line after the YAML front matter
             title_line=$(awk 'BEGIN {skip=0} /^---$/ {if (skip==0) {skip=1; next} else {skip=2; next}} skip==2 && NF{print; exit}' "$file")
@@ -41,9 +41,9 @@ jobs:
           done
 
           if [ "$ERROR_FOUND" -eq 1 ]; then
-            echo "❌ One or more changeset files are incorrectly formatted. Failing the check."
+            echo "❌ One or more changeset files are incorrectly formatted. Failing the validation."
             exit 1
           fi
 
-      - name: Success
+      - name: Validation Success
         run: echo "✅ All changeset files are correctly formatted."
