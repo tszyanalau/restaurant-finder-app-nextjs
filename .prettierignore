@@ -1,3 +1,5 @@
 .changeset/
 .husky/
 public/
+.env
+.env.*
