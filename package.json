@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier:fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,md,json}\"",
+    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,md,json}\"",
     "prepare": "husky || true",
     "test": "vitest --run",
     "test:watch": "vitest",
@@ -53,10 +53,5 @@
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.5"
-  },
-  "lint-staged": {
-    "./**/*": [
-      "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,md,json}\""
-    ]
   }
 }
