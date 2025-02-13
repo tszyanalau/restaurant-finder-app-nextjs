@@ -1,5 +1,3 @@
-.changeset/
-.husky/
-public/
-.env
-.env.*
+dist/
+coverage/
+.next/
