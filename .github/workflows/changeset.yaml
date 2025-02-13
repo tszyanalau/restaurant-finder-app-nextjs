@@ -1,4 +1,4 @@
-name: Validate Changeset Format
+name: Changeset
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   validate-changeset:
-    name: Validate Changeset Format
+    name: Validate Format
     runs-on: ubuntu-latest
 
     steps:
