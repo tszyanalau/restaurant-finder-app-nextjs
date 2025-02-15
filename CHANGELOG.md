@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 8cb9384: # Refactor Icon Usage and Simplify Components
+- 8cb9384: Refactor Icon Usage and Simplify Components
 
   This changeset includes several updates to improve the consistency and simplicity of icon usage across the application:
 
@@ -19,7 +19,7 @@
 
 ### Patch Changes
 
-- 5996e92: # Refactor Restaurant Details Page
+- 5996e92: Refactor Restaurant Details Page
 
   Refactored the restaurant detail page to improve code reusability. The following changes have been made:
 
@@ -29,7 +29,7 @@
 
   Ref: [PR #4](https://github.com/tszyanalau/restaurant-finder-app-nextjs/pull/4)
 
-- e30af79: # Refactor Restaurant Details Page
+- e30af79: Refactor Restaurant Details Page
 
   Refactored the restaurant detail page to improve code organization and maintainability. The following changes have been made:
 
@@ -39,7 +39,7 @@
   4. **Moved DEFAULT_PLACEHOLDER**: Moved the `DEFAULT_PLACEHOLDER` constant to a dedicated constants file.
   5. **Changed Table Component Export**: Changed the `Table` component to a default export for consistency with other components.
 
-- 5996e92: # Mobile Screen Support for Restaurant Details Page
+- 5996e92: Mobile Screen Support for Restaurant Details Page
 
   Add responsive class names to restaurant details page for better mobile screen support.
 
@@ -49,7 +49,7 @@
 
 ### Major Changes
 
-- 1ec279f: # Initial Release
+- 1ec279f: Initial Release
 
   - Added several dev tools: eslint, prettier, commitlint
   - Added home page and restaurant details page
