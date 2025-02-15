@@ -32,10 +32,11 @@ jobs:
             echo "Validating file: $file"
 
             # Extract the first non-empty line after the YAML front matter
-            title_line=$(awk 'BEGIN {skip=0} /^---$/ {if (skip==0) {skip=1; next} else {skip=2; next}} skip==2 && NF{print; exit}' "$file")
+            first_content_line=$(awk 'BEGIN {skip=0} /^---$/ {if (skip==0) {skip=1; next} else {skip=2; next}} skip==2 && NF{print; exit}' "$file")
 
-            if [[ ! "$title_line" =~ ^#\  ]]; then
-              echo "❌ Changeset file '$file' is missing a properly formatted title (must start with '# Title')."
+            # Ensure the first line is NOT a list item (- )
+            if [[ "$first_content_line" =~ ^- ]]; then
+              echo "❌ Changeset file '$file' must start with a sentence, not a list ('- ')."
               ERROR_FOUND=1
             fi
           done
